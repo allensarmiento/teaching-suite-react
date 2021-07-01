@@ -12,7 +12,7 @@ interface Props {
   number: number;
 }
 
-export const LessonLink = ({ lesson, number }: Props) => {
+const LessonLink = ({ lesson, number }: Props) => {
   const lessonLinkColor = (isMostRecent: boolean) => {
     return isMostRecent ? 'success' : 'secondary';
   };
@@ -28,3 +28,5 @@ export const LessonLink = ({ lesson, number }: Props) => {
     </Link>
   );
 };
+
+export default LessonLink;

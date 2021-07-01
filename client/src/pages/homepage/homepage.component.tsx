@@ -1,7 +1,8 @@
-import styles from './home-page.module.scss';
-import { LessonsList } from '../lessons-list/lessons-list.component';
+import styles from './homepage.module.scss';
 
-export const HomePage = () => {
+import LessonsList from '../../components/lessons-list/lessons-list.component';
+
+const Homepage = () => {
   return (
     <div className={styles.home}>
       {/* JOIN SECTION */}
@@ -21,3 +22,5 @@ export const HomePage = () => {
     </div>
   );
 };
+
+export default Homepage;

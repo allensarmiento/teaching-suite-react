@@ -1,11 +1,12 @@
-import { LessonLink, ILesson } from '../lesson-link/lesson-link.component';
 import styles from './lessons-list.module.scss';
+
+import LessonLink, { ILesson } from '../lesson-link/lesson-link.component';
 
 interface Props {
   lessons: ILesson[];
 }
 
-export const LessonsList = ({ lessons }: Props) => {
+const LessonsList = ({ lessons }: Props) => {
   return (
     <div className={styles.list}>
       {lessons.map((lesson, index) => (
@@ -18,3 +19,5 @@ export const LessonsList = ({ lessons }: Props) => {
     </div>
   );
 };
+
+export default LessonsList;

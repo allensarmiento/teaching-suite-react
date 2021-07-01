@@ -8,7 +8,7 @@ interface Props {
   username?: string;
 }
 
-export const TopNavigation = ({ title, username }: Props) => {
+const TopNavigation = ({ title, username }: Props) => {
   return (
     <Navbar className={styles.navbar} bg="dark" variant="dark" expand="sm">
       <Navbar.Brand href="#" className={styles.brand}>
@@ -43,3 +43,5 @@ export const TopNavigation = ({ title, username }: Props) => {
     </Navbar>
   );
 };
+
+export default TopNavigation;

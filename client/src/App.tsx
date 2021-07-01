@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Classroom } from './components/classroom/classroom.component';
-import { HomePage } from './components/home-page/home-page.component';
-import {
-  TopNavigation
-} from './components/top-navigation/top-navigation.component';
+
 import './App.css';
+
+import Classroom from './pages/classroom/classroom.component';
+import Homepage from './pages/homepage/homepage.component';
+import TopNavigation from './components/top-navigation/top-navigation.component';
 
 function App() {
   return (
@@ -12,12 +12,8 @@ function App() {
       <TopNavigation title="Teaching Suite" username="Test" />
       <BrowserRouter>
         <Switch>
-          <Route path="/classroom">
-            <Classroom />
-          </Route>
-          <Route path="/">
-            <HomePage />
-          </Route>
+          <Route path="/classroom" component={Classroom} />
+          <Route path="/" component={Homepage} />
         </Switch>
       </BrowserRouter>
     </div>

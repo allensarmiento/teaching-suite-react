@@ -1,4 +1,4 @@
-export const Classroom = () => {
+const Classroom = () => {
   return (
     <div>
       <h1>Lesson Number 1</h1>
@@ -8,3 +8,5 @@ export const Classroom = () => {
     </div>
   );
 };
+
+export default Classroom;
