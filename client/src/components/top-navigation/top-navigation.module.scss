@@ -1,0 +1,27 @@
+.navbar {
+  padding: 1rem 4rem;
+  background-color: var(--dark-primary-color);
+  font-size: 2rem;
+}
+
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.brand {
+  font-size: 2rem !important;
+}
+
+.link {
+  color: var(--text-light-grey);
+
+  &:hover {
+    color: var(--text-light);
+  }
+}
+
+.item {
+  font-size: 1.8rem;
+}
