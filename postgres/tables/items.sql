@@ -9,4 +9,16 @@ CREATE TABLE items (
   component varchar(255) NOT NULL
 );
 
+INSERT INTO items (slide_id, number, content, component)
+VALUES (1, 1, 'Question 1', 'QuestionContent');
+
+INSERT INTO items (slide_id, number, content, component)
+VALUES (1, 2, 'Question 2', 'QuestionContent');
+
+INSERT INTO items (slide_id, number, content, component)
+VALUES (1, 3, 'Question 3', 'QuestionContent');
+
+INSERT INTO items (slide_id, number, content, component)
+VALUES (1, 4, 'Question 4', 'QuestionContent');
+
 COMMIT;

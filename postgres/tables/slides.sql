@@ -8,4 +8,7 @@ CREATE TABLE slides (
   show_review BOOLEAN
 );
 
+INSERT into slides (lesson_id, number, show_review)
+VALUES (1, 1, false);
+
 COMMIT;
