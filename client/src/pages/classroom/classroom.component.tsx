@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
 import styles from './classroom.module.scss';
 
@@ -7,11 +8,16 @@ import Participants from '../../components/participants/participants.component';
 import Sidebar from '../../components/sidebar/sidebar.component';
 import Slide, { ISlide } from '../../components/slide/slide.component';
 
-interface Props {}
+interface MatchParams {
+  id: string;
+}
+
+interface Props extends RouteComponentProps<MatchParams> {}
 
 interface State {
   slides: ISlide[];
   currentSlide: number;
+  currentItem: number;
   users: Array<any>;
   finished: boolean;
 }
@@ -23,15 +29,20 @@ class Classroom extends Component<Props, State> {
     this.state = {
       slides: [],
       currentSlide: 1,
+      currentItem: 1,
       users: [],
       finished: false,
     };
   }
 
   async componentDidMount() {
+    const { id } = this.props.match.params;
+    
+    if (!id) return;
+
     try {
       const { data: slides } = await axios
-        .get('http://localhost:4000/api/lessons/1');
+        .get(`http://localhost:4000/api/lessons/${id}`);
       this.setState({ slides });
     } catch (err) {
       console.log(err);
@@ -44,27 +55,72 @@ class Classroom extends Component<Props, State> {
     return slides[slides.length - 1].slide_number;
   }
 
-  handlePrevSlide = () => {
-    this.setState(prevState => ({
-      currentSlide: prevState.currentSlide - 1,
+  lastSlideItemNumber(slides: ISlide[]) {
+    if (slides.length === 0) return -1;
+
+    const lastSlideNumber = this.lastSlideNumber(slides);
+    const lastSlide = slides
+      .filter(slide => slide.slide_number === lastSlideNumber);
+    
+    if (lastSlide.length === 0) return -1;
+
+    return slides[slides.length - 1].item_number;
+  }
+
+  handlePrev = () => {
+    const { slides, currentSlide, currentItem } = this.state;
+
+    let prevSlideNumber = currentSlide;
+    let prevItemNumber = currentItem;
+
+    if (prevItemNumber === 1) {
+      prevSlideNumber -= 1;
+
+      const prevSlides = slides
+        .filter(slide => slide.slide_number === prevSlideNumber);
+      prevItemNumber = this.lastSlideItemNumber(prevSlides);
+    } else {
+      prevItemNumber -= 1;
+    }
+
+    this.setState({
+      currentSlide: prevSlideNumber,
+      currentItem: prevItemNumber,
       finished: false,
-    }));
+    });
   };
 
-  handleNextSlide = () => {
-    this.setState(prevState => ({
-      currentSlide: prevState.currentSlide + 1,
-      finished: prevState.currentSlide + 1 > this
-        .lastSlideNumber(prevState.slides),
-    }));
+  handleNext = () => {
+    const { slides, currentSlide, currentItem } = this.state;
+
+    let nextSlideNumber = currentSlide;
+    let nextItemNumber = currentItem;
+
+    const currentSlides = slides
+      .filter(slide => slide.slide_number === currentSlide);
+
+    if (nextItemNumber === this.lastSlideItemNumber(currentSlides)) {
+      nextSlideNumber += 1;
+      nextItemNumber = 1;
+    } else {
+      nextItemNumber += 1;
+    }
+
+    this.setState({
+      currentSlide: nextSlideNumber,
+      currentItem: nextItemNumber,
+      finished: nextSlideNumber > this.lastSlideNumber(slides),
+    });
   }
 
   render() {
-    const { slides, currentSlide, users } = this.state;
+    const { slides, currentSlide, currentItem, users, finished } = this.state;
     
     const lessonTitle = slides.length > 0 ? slides[0].title : '';
     const filteredSlides = slides
       .filter(slide => slide.slide_number === currentSlide);
+    const filteredItems = filteredSlides
+      .filter(item => item.item_number <= currentItem);
 
     return (
       <div className={styles.classroom}>
@@ -73,21 +129,21 @@ class Classroom extends Component<Props, State> {
           <div className={styles.container}>
             <Slide
               className={styles.slide}
-              // TODO: Display 'end of slides' if end
-              items={filteredSlides}
+              items={filteredItems}
+              finished={finished}
             />
             <div>
               <button
-                onClick={this.handlePrevSlide}
-                disabled={currentSlide === 1}
+                onClick={this.handlePrev}
+                disabled={currentSlide === 1 && currentItem === 1}
               >
-                Prev Slide
+                Prev
               </button>
               <button
-                onClick={this.handleNextSlide}
+                onClick={this.handleNext}
                 disabled={currentSlide > this.lastSlideNumber(slides)}
               >
-                Next Slide
+                Next
               </button>
             </div>
             <Participants className={styles.participants} users={users} />

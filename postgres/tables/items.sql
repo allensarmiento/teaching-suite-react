@@ -33,4 +33,19 @@ VALUES (2, 3, 'Question 2.3', 'QuestionContent');
 INSERT INTO items (slide_id, number, content, component)
 VALUES (2, 4, 'Question 2.4', 'QuestionContent');
 
+INSERT INTO items (slide_id, number, content, component)
+VALUES (3, 1, 'Text 3.1', 'TextContent');
+
+INSERT INTO items (slide_id, number, content, component)
+VALUES (3, 2, 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80', 'ImageContent');
+
+INSERT INTO items (slide_id, number, content, component)
+VALUES (4, 1, 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80', 'ImageContent');
+
+INSERT INTO items (slide_id, number, content, component)
+VALUES (4, 2, 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80', 'ImageContent');
+
+INSERT INTO items (slide_id, number, content, component)
+VALUES (5, 1, 'Text 2.1', 'TextContent');
+
 COMMIT;

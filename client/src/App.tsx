@@ -12,7 +12,7 @@ function App() {
       <TopNavigation title="Teaching Suite" username="Test" />
       <BrowserRouter>
         <Switch>
-          <Route path="/classroom" component={Classroom} />
+          <Route path="/classroom/:id" component={Classroom} />
           <Route path="/" component={Homepage} />
         </Switch>
       </BrowserRouter>

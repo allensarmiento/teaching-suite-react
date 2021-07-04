@@ -4,7 +4,7 @@ import styles from './lesson-link.module.scss';
 
 export interface ILesson {
   id: number;
-  href: string;
+  title: string;
 }
 
 interface Props {
@@ -18,12 +18,12 @@ const LessonLink = ({ lesson, number }: Props) => {
   };
 
   return (
-    <Link to={lesson.href} className={styles.link}>
+    <Link to={`/classroom/${lesson.id}`} className={styles.link}>
       <Alert
         className={styles.lesson}
         variant={lessonLinkColor(number === 0)}
       >
-        Review Lesson {number + 1}
+        {lesson.title}
       </Alert>
     </Link>
   );

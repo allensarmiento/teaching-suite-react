@@ -18,7 +18,7 @@ const TopNavigation = ({ title, username }: Props) => {
       <Navbar.Collapse id="nav-collapse-menu">
         <Nav className={styles.nav}>
           <Nav.Link
-            href="#"
+            href="/"
             className={styles.link}
           >
             Home

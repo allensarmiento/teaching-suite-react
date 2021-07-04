@@ -15,4 +15,11 @@ VALUES (
   '2021-07-04T08:50:26.000Z'
 );
 
+INSERT INTO lessons (user_id, title, created)
+VALUES (
+  1,
+  'Lesson 2',
+  '2021-07-04T08:50:26.000Z'
+);
+
 COMMIT;
