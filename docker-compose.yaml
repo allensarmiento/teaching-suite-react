@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  client:
+    container_name: client
+    build: ./client
+    volumes:
+      - ./client:/usr/src/app/client
+      - /usr/src/app/client/node_modules
+    working_dir: /usr/src/app/client
+    command: npm start
+    ports:
+      - "3000:3000"
+
+  server:
+    container_name: backend
+    build: ./server
+    volumes:
+      - ./server:/usr/src/app/server
+      - /usr/src/app/server/node_modules
+    working_dir: /usr/src/app/server
+    command: npm start
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      POSTGRES_URI: postgres://admin:password@postgres:5432/teachingsuite
+      JWT_KEY: asdf
+  
+  postgres:
+    container_name: postgres
+    build: ./postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_URL: postgres://admin:password@localhost:5432/teachingsuite
+      POSTGRES_DB: teachingsuite
+      POSTGRES_HOST: postgres
+    ports:
+      - "5432:5432"
