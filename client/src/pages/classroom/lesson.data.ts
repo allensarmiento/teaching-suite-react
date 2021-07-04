@@ -1,6 +1,4 @@
-import { ISlide } from '../../components/slide/slide.component';
-
-const LESSON: ISlide[] = [
+const LESSON = [
   {
     number: 1,
     title: 'Title',

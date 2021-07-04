@@ -6,21 +6,18 @@ import styles from './slide.module.scss';
 import ImageContent from '../image-content/image-content.component';
 import QuestionContent from '../question-content/question-content.component';
 
-export interface ISlideItem {
-  content: string | Array<string>;
-  component: 'ImageContent' | 'QuestionContent';
-}
-
 export interface ISlide {
-  number: number;
   title: string;
-  items: ISlideItem[];
-  showInReview: boolean;
+  slide_number: number;
+  show_review: boolean;
+  item_number: number;
+  content: string | string[];
+  component: 'ImageContent' | 'QuestionContent';
 }
 
 interface Props {
   className?: string;
-  items: ISlideItem[];
+  items: ISlide[];
 }
 
 const Slide = ({ className, items }: Props) => {

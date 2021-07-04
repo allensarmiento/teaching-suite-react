@@ -10,15 +10,27 @@ CREATE TABLE items (
 );
 
 INSERT INTO items (slide_id, number, content, component)
-VALUES (1, 1, 'Question 1', 'QuestionContent');
+VALUES (1, 1, 'Question 1.1', 'QuestionContent');
 
 INSERT INTO items (slide_id, number, content, component)
-VALUES (1, 2, 'Question 2', 'QuestionContent');
+VALUES (1, 2, 'Question 1.2', 'QuestionContent');
 
 INSERT INTO items (slide_id, number, content, component)
-VALUES (1, 3, 'Question 3', 'QuestionContent');
+VALUES (1, 3, 'Question 1.3', 'QuestionContent');
 
 INSERT INTO items (slide_id, number, content, component)
-VALUES (1, 4, 'Question 4', 'QuestionContent');
+VALUES (1, 4, 'Question 1.4', 'QuestionContent');
+
+INSERT INTO items (slide_id, number, content, component)
+VALUES (2, 1, 'Question 2.1', 'QuestionContent');
+
+INSERT INTO items (slide_id, number, content, component)
+VALUES (2, 2, 'Question 2.2', 'QuestionContent');
+
+INSERT INTO items (slide_id, number, content, component)
+VALUES (2, 3, 'Question 2.3', 'QuestionContent');
+
+INSERT INTO items (slide_id, number, content, component)
+VALUES (2, 4, 'Question 2.4', 'QuestionContent');
 
 COMMIT;

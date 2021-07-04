@@ -29,12 +29,6 @@ class Lesson {
       console.log(`Error getting lessons: ${err}`);
     }
 
-    try {
-      
-    } catch (err) {
-
-    }
-
     return lessons.length > 0 ? lessons[0] : null;
   }
 

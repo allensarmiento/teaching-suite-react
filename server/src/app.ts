@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express, { Request, Response } from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
@@ -18,6 +19,7 @@ import { indexLessonRouter } from './routes/lessons/index';
 import { showLessonRouter } from './routes/lessons/show';
 
 const app = express();
+app.use(cors());
 app.set('trust proxy', true);
 app.use(json());
 app.use(

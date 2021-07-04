@@ -11,4 +11,7 @@ CREATE TABLE slides (
 INSERT into slides (lesson_id, number, show_review)
 VALUES (1, 1, false);
 
+INSERT into slides (lesson_id, number, show_review)
+VALUES (1, 2, false);
+
 COMMIT;

@@ -12,24 +12,33 @@ const router = express.Router();
 
 router.get(
   '/api/lessons/:id',
-  requireAuth,
+  // requireAuth,
   async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    const foundLesson = await lesson.findById(id);
-
-    if (!foundLesson) {
-      throw new NotFoundError();
-    }
-
     let slides: Array<any> = [];
+
     try {
-      slides = await postgresWrapper.db('lessons as l')
-        .innerJoin('slides as s', 's.lesson_id', 'l.id')
-        .innerJoin('items as i', 'i.slide_id', 's.id')
-        .where('l.id', id);
+      slides = await postgresWrapper.db
+        .select([
+          'l.title',
+          's.number as slide_number',
+          's.show_review',
+          'i.number as item_number',
+          'i.content',
+          'i.component',
+        ])
+        .from('lessons as l')
+        .innerJoin('slides as s', 's.lesson_id', '=', 'l.id')
+        .innerJoin('items as i', 'i.slide_id', '=', 's.id')
+        .where('l.id', id)
+        .orderBy(['s.number', 'i.number']);
     } catch (err) {
       console.log(err);
+    }
+
+    if (slides.length === 0) {
+      throw new NotFoundError();
     }
 
     res.send(slides);
