@@ -2,18 +2,8 @@
   padding: 4rem 2rem;
 }
 
-.join {
-  background-color: var(--primary-color);
-  color: var(--text-light);
+.joinbtn {
   margin-bottom: 4rem;
-  padding: 1rem 2rem;
-  font-size: 1.4rem;
-  border: none;
-  border-radius: .2rem;
-
-  &:hover {
-    background-color: var(--accent-color);
-  }
 }
 
 .review {

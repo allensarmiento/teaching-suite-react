@@ -11,12 +11,14 @@ interface Props {
 };
 
 const PrivateRoute = ({ children, currentUser, ...rest }: Props) => {
+  if (!currentUser) {
+    return <Redirect to="/sign-in" />;
+  }
+
   return (
-    <Route {...rest} render={() => {
-      return currentUser
-        ? children
-        : <Redirect to="/sign-in" />
-    }} />
+    <Route {...rest}>
+      {children}
+    </Route>
   );
 };
 

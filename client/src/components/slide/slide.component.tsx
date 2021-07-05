@@ -19,7 +19,7 @@ export interface ISlide {
 interface Props {
   className?: string;
   items: ISlide[];
-  finished: boolean;
+  finished?: boolean;
 }
 
 const Slide = ({ className, items, finished }: Props) => {
@@ -35,10 +35,18 @@ const Slide = ({ className, items, finished }: Props) => {
         {!finished ? (
           items.map((item, index) => {
             const TagName = components[item.component] || 'TextContent';
-            return <TagName key={index} content={item.content} />
+            return (
+              <TagName
+                key={index}
+                content={typeof item.content === 'string'
+                  ? [item.content]
+                  : item.content
+                }
+              />
+            );
           })
         ) : (
-          <TextContent content="End of lesson" />
+          <TextContent content={["End of lesson"]} />
         )}
       </div>
     </Jumbotron>

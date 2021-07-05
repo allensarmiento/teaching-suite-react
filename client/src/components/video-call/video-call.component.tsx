@@ -8,8 +8,6 @@ import {
 } from 'agora-rtc-react';
 import { useEffect, useState } from 'react';
 
-import styles from './video-call.module.scss';
-
 import CallControls from '../call-controls/call-controls.component';
 import UserVideos from '../user-videos/user-videos.component';
 
@@ -88,7 +86,7 @@ const VideoCall = ({ leaveCall, channelName, token }: Props) => {
       console.log('init ready');
       init(channelName);
     }
-  }, [channelName, client, ready, tracks]);
+  }, [channelName, client, ready, tracks, token]);
 
   const leave = () => {
     setStart(false);

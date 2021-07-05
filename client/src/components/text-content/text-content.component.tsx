@@ -1,14 +1,14 @@
-import styles from './text-content.module.scss';
-
 interface Props {
-  content: string | Array<string>;
+  content: Array<string>;
 }
 
 const TextContent = ({ content }: Props) => {
-  const text = typeof content === 'string' ? content : '';
-
   return (
-    <p>{text}</p>
+    <>
+      {content.map((text, index) => (
+        <p key={index}>{text}</p>
+      ))}
+    </>
   );
 };
 

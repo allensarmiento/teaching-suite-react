@@ -18,7 +18,7 @@ const LessonLink = ({ lesson, number }: Props) => {
   };
 
   return (
-    <Link to={`/classroom/${lesson.id}`} className={styles.link}>
+    <Link to={`/review/${lesson.id}`} className={styles.link}>
       <Alert
         className={styles.lesson}
         variant={lessonLinkColor(number === 0)}

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import styles from './homepage.module.scss';
 
@@ -8,6 +8,8 @@ import { CurrentUser } from '../../App';
 
 import LessonsList from '../../components/lessons-list/lessons-list.component';
 import { ILesson } from '../../components/lesson-link/lesson-link.component';
+
+import BlueGreyButton from '../../core/blue-grey-button/blue-grey-button.component';
 
 interface Props {
   currentUser: CurrentUser | null;
@@ -40,19 +42,23 @@ class Homepage extends Component<Props, State> {
   }
 
   render() {
+    const { currentUser } = this.props;
     const { lessons } = this.state;
     const latestLesson = lessons.length !== 0 ? lessons[0].id : '';
 
     return (
       <div className={styles.home}>
         <Link to={`/classroom/${latestLesson}`}>
-          <button className={styles.join}>Join Waiting Room</button>
+          <BlueGreyButton className={styles.joinbtn}>
+            Join Waiting Room
+          </BlueGreyButton>
         </Link>
         <div className={styles.review}>
           <h2 className={styles.section}>Review Lessons</h2>
           <LessonsList lessons={lessons} />
         </div>
         {/* Admin Section */}
+        <div>{currentUser?.role}</div>
       </div>
     );
   }

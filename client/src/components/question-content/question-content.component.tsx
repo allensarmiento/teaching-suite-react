@@ -1,14 +1,14 @@
-import styles from './question-content.module.scss';
-
 interface Props {
-  content: string | Array<string>;
+  content: Array<string>;
 }
 
 const QuestionContent = ({ content }: Props) => {
-  const question = typeof content === 'string' ? content : '';
-
   return (
-    <p>{question}</p>
+    <>
+    {content.map((question, index) => (
+      <p key={index}>{question}</p>
+    ))}
+    </>
   );
 };
 

@@ -1,0 +1,15 @@
+.review {
+  padding: 2rem;
+}
+
+.slide {
+  background: white;
+  
+  &:not(:last-child) {
+    border-bottom: 2px solid black;
+  }
+}
+
+.heading {
+  font-size: 3rem;
+}

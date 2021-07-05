@@ -5,11 +5,13 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 
 import './App.css';
 
-import PrivateRoute from './core/private-route/private-route.component';
 import TopNavigation from './components/top-navigation/top-navigation.component';
+
+import PrivateRoute from './core/private-route/private-route.component';
 
 import Classroom from './pages/classroom/classroom.component';
 import Homepage from './pages/homepage/homepage.component';
+import Review from './pages/review/review.component';
 import SignIn from './pages/sign-in/sign-in.component';
 
 type PathParamsType = {};
@@ -18,9 +20,11 @@ type Props = RouteComponentProps<PathParamsType> & {}
 
 export interface CurrentUser {
   email: string;
+  role: string;
 }
 
 interface State {
+  loading: boolean;
   currentUser: CurrentUser | null;
 }
 
@@ -29,6 +33,7 @@ class App extends Component<Props, State> {
     super(props);
 
     this.state = {
+      loading: true,
       currentUser: null,
     };
   }
@@ -46,7 +51,9 @@ class App extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    await this.fetchCurrentUser();
+    await this.fetchCurrentUser(() => {
+      this.setState({ loading: false });
+    });
   }
 
   signin = async (email: string, password: string) => {
@@ -87,7 +94,11 @@ class App extends Component<Props, State> {
   }
 
   render() {
-    const { currentUser } = this.state;
+    const { currentUser, loading } = this.state;
+
+    if (loading) {
+      return <div>Loading...</div>
+    }
 
     return (
       <div className="App">
@@ -101,6 +112,11 @@ class App extends Component<Props, State> {
             currentUser={currentUser}
             path="/classroom/:id"
             component={Classroom}
+          />
+          <PrivateRoute
+            currentUser={currentUser}
+            path="/review/:id"
+            component={Review}
           />
           <Route path="/sign-in">
             <SignIn
