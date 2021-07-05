@@ -18,6 +18,8 @@ import { createLessonRouter } from './routes/lessons/new';
 import { indexLessonRouter } from './routes/lessons/index';
 import { showLessonRouter } from './routes/lessons/show';
 
+import { accessTokenRouter } from './routes/video-call/access-token';
+
 const app = express();
 app.use(cors());
 app.set('trust proxy', true);
@@ -39,6 +41,8 @@ app.use(signupRouter);
 app.use(createLessonRouter);
 app.use(indexLessonRouter);
 app.use(showLessonRouter);
+
+app.use(accessTokenRouter);
 
 app.all('*', async (req: Request, res: Response) => {
   throw new NotFoundError();
