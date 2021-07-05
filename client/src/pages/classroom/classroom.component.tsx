@@ -7,6 +7,8 @@ import styles from './classroom.module.scss';
 import Participants from '../../components/participants/participants.component';
 import Sidebar from '../../components/sidebar/sidebar.component';
 import Slide, { ISlide } from '../../components/slide/slide.component';
+import WaitingRoom from '../../components/waiting-room/waiting-room.component';
+import VideoCall from '../../components/video-call/video-call.component';
 
 interface MatchParams {
   id: string;
@@ -15,6 +17,8 @@ interface MatchParams {
 interface Props extends RouteComponentProps<MatchParams> {}
 
 interface State {
+  inRoom: boolean;
+  accessToken: string;
   slides: ISlide[];
   currentSlide: number;
   currentItem: number;
@@ -27,6 +31,8 @@ class Classroom extends Component<Props, State> {
     super(props);
 
     this.state = {
+      inRoom: false,
+      accessToken: '',
       slides: [],
       currentSlide: 1,
       currentItem: 1,
@@ -43,7 +49,13 @@ class Classroom extends Component<Props, State> {
     try {
       const { data: slides } = await axios
         .get(`http://localhost:4000/api/lessons/${id}`);
-      this.setState({ slides });
+
+      const { data: accessToken } = await axios
+        .post('http://localhost:4000/api/video-call/access-token', {
+          channelName: 'video',
+        });
+
+      this.setState({ slides, accessToken });
     } catch (err) {
       console.log(err);
     }
@@ -113,7 +125,23 @@ class Classroom extends Component<Props, State> {
     });
   }
 
+  leaveCall = () => {
+    this.setState({ inRoom: false });
+  }
+
   render() {
+    const { accessToken, inRoom } = this.state;
+
+    if (!accessToken) {
+      return <div>Loading...</div>
+    }
+
+    if (!inRoom) {
+      return (
+        <WaitingRoom onClick={() => this.setState({ inRoom: true })} />
+      );
+    }
+
     const { slides, currentSlide, currentItem, users, finished } = this.state;
     
     const lessonTitle = slides.length > 0 ? slides[0].title : '';
@@ -146,7 +174,13 @@ class Classroom extends Component<Props, State> {
                 Next
               </button>
             </div>
-            <Participants className={styles.participants} users={users} />
+            <Participants className={styles.participants} users={users}>
+              <VideoCall
+                leaveCall={this.leaveCall}
+                channelName="video"
+                token={accessToken}
+              />
+            </Participants>
           </div>
           {/* <Sidebar /> */}
         </div>

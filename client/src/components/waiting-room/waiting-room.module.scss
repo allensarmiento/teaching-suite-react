@@ -1,25 +1,26 @@
-.home {
-  padding: 4rem 2rem;
+.waiting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-.join {
+.heading {
+  font-size: 3rem;
+  margin-bottom: 4rem;
+}
+
+.button {
   background-color: var(--primary-color);
   color: var(--text-light);
-  margin-bottom: 4rem;
   padding: 1rem 2rem;
   font-size: 1.4rem;
+  font-weight: 600;
   border: none;
   border-radius: .2rem;
 
   &:hover {
     background-color: var(--accent-color);
   }
-}
-
-.review {
-  padding: 2rem;
-}
-
-.section {
-  font-size: 2.8rem;
 }

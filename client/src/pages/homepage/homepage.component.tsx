@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import styles from './homepage.module.scss';
 
@@ -33,7 +34,9 @@ class Homepage extends Component<Props, State> {
 
     return (
       <div className={styles.home}>
-        {/* JOIN SECTION */}
+        <Link to={`/classroom/${2}`}>
+          <button className={styles.join}>Join Waiting Room</button>
+        </Link>
         <div className={styles.review}>
           <h2 className={styles.section}>Review Lessons</h2>
           <LessonsList lessons={lessons} />

@@ -1,0 +1,24 @@
+.controls {
+  z-index: 10;
+  position: absolute;
+  bottom: -3rem;
+  left: 1rem;
+  width: 20rem;
+  max-width: 40vw;
+}
+
+.control {
+  padding: 1rem;
+  background-color: #38373a;
+  color: #f7f7f7;
+  border-width: 1px;
+  border-color: #f7f7f7;
+  border-style: solid;
+  cursor: pointer;
+}
+
+.on {
+  background-color: #f7f7f7;
+  color: #38373a;
+  border-color: #38373a;
+}
