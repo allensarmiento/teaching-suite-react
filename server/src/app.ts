@@ -21,7 +21,15 @@ import { showLessonRouter } from './routes/lessons/show';
 import { accessTokenRouter } from './routes/video-call/access-token';
 
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: 'GET,HEAD,POST,PATCH,DELETE,OPTIONS',
+  credentials: true,
+  alllowedHeaders: 'Content-Type, Authorization, X-Requested-With',
+};
+app.use(cors(corsOptions));
+
 app.set('trust proxy', true);
 app.use(json());
 app.use(
@@ -29,6 +37,7 @@ app.use(
     signed: false,
     secure: process.env.NODE_ENV !== 'test'
       && process.env.NODE_ENV !== 'development',
+    sameSite: 'lax',
   }),
 );
 app.use(currentUser);

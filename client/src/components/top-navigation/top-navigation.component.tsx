@@ -1,14 +1,57 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { RouteComponentProps } from 'react-router';
+import { withRouter } from 'react-router-dom';
+
 import styles from './top-navigation.module.scss';
 
-interface Props {
+interface User {
+  id: string;
+  email: string;
+}
+
+type PathParamsType = {};
+
+type Props = RouteComponentProps<PathParamsType> & {
   title?: string;
   username?: string;
 }
 
-const TopNavigation = ({ title, username }: Props) => {
+const TopNavigation = ({ title, username, history }: Props) => {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  const fetchUser = async () => {
+    try {
+      const { data } = await axios.get(
+        'http://localhost:4000/api/auth/currentuser',
+        { withCredentials: true },
+      );
+
+      setCurrentUser(data.currentUser);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const onSignOut = async () => {
+    try {
+      await axios.get(
+        'http://localhost:4000/api/auth/signout',
+        { withCredentials: true },
+      );
+      history.push('/sign-in');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Navbar className={styles.navbar} bg="dark" variant="dark" expand="sm">
       <Navbar.Brand href="#" className={styles.brand}>
@@ -23,25 +66,38 @@ const TopNavigation = ({ title, username }: Props) => {
           >
             Home
           </Nav.Link>
-          <NavDropdown
-            id="basic-nav-dropdown"
-            title={username}
-          >
-            <NavDropdown.Item
-              href="#"
-              className={styles.item}
-              disabled
+          {currentUser ? (
+            <NavDropdown
+              id="basic-nav-dropdown"
+              title={currentUser.email}
             >
-              Profile
-            </NavDropdown.Item>
-            <NavDropdown.Item href="#" className={styles.item}>
-              Sign Out
-            </NavDropdown.Item>
-          </NavDropdown>
+              <NavDropdown.Item
+                href="#"
+                className={styles.item}
+                disabled
+              >
+                Profile
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                as="button"
+                className={styles.item}
+                onClick={onSignOut}
+              >
+                Sign Out
+              </NavDropdown.Item>
+            </NavDropdown>
+          ) : (
+            <Nav.Link
+              href="/sign-in"
+              className={styles.link}
+            >
+              Sign In
+            </Nav.Link>
+          )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
   );
 };
 
-export default TopNavigation;
+export default withRouter(TopNavigation);

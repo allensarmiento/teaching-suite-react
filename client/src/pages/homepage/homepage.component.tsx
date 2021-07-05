@@ -1,13 +1,16 @@
 import axios from 'axios';
 import { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 
 import styles from './homepage.module.scss';
 
 import LessonsList from '../../components/lessons-list/lessons-list.component';
 import { ILesson } from '../../components/lesson-link/lesson-link.component';
 
-interface Props {};
+type PathParamsType = {};
+
+type Props = RouteComponentProps<PathParamsType> & {};
 
 interface State {
   lessons: ILesson[];
@@ -23,18 +26,34 @@ class Homepage extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    const { data: lessons } = await axios
-      .get('http://localhost:4000/api/lessons');
+    try {
+      const { data } = await axios.get(
+        'http://localhost:4000/api/auth/currentuser',
+        { withCredentials: true },
+      );
 
-    this.setState({ lessons });
+      if (!data.currentUser) {
+        this.props.history.push('/sign-in');
+        return;
+      }
+
+      const { data: lessons } = await axios
+        .get('http://localhost:4000/api/lessons');
+
+      this.setState({ lessons });
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   render() {
     const { lessons } = this.state;
 
+    const latestLesson = lessons.length !== 0 ? lessons[0].id : '';
+
     return (
       <div className={styles.home}>
-        <Link to={`/classroom/${2}`}>
+        <Link to={`/classroom/${latestLesson}`}>
           <button className={styles.join}>Join Waiting Room</button>
         </Link>
         <div className={styles.review}>
@@ -47,4 +66,4 @@ class Homepage extends Component<Props, State> {
   }
 };
 
-export default Homepage;
+export default withRouter(Homepage);
