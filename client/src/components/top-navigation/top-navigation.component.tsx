@@ -1,56 +1,19 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
+
+import { CurrentUser } from '../../App';
 
 import styles from './top-navigation.module.scss';
 
-interface User {
-  id: string;
-  email: string;
-}
-
-type PathParamsType = {};
-
-type Props = RouteComponentProps<PathParamsType> & {
+interface Props {
   title?: string;
-  username?: string;
+  currentUser?: CurrentUser | null;
+  signout: Function;
 }
 
-const TopNavigation = ({ title, username, history }: Props) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-
-  const fetchUser = async () => {
-    try {
-      const { data } = await axios.get(
-        'http://localhost:4000/api/auth/currentuser',
-        { withCredentials: true },
-      );
-
-      setCurrentUser(data.currentUser);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  const onSignOut = async () => {
-    try {
-      await axios.get(
-        'http://localhost:4000/api/auth/signout',
-        { withCredentials: true },
-      );
-      history.push('/sign-in');
-    } catch (err) {
-      console.log(err);
-    }
-  };
+const TopNavigation = ({ title, currentUser, signout }: Props) => {
+  const onSignoutClicked = async () => await signout();
 
   return (
     <Navbar className={styles.navbar} bg="dark" variant="dark" expand="sm">
@@ -81,7 +44,7 @@ const TopNavigation = ({ title, username, history }: Props) => {
               <NavDropdown.Item
                 as="button"
                 className={styles.item}
-                onClick={onSignOut}
+                onClick={onSignoutClicked}
               >
                 Sign Out
               </NavDropdown.Item>
@@ -100,4 +63,4 @@ const TopNavigation = ({ title, username, history }: Props) => {
   );
 };
 
-export default withRouter(TopNavigation);
+export default TopNavigation;

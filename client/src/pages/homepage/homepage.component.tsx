@@ -1,16 +1,17 @@
 import axios from 'axios';
 import { Component } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import styles from './homepage.module.scss';
+
+import { CurrentUser } from '../../App';
 
 import LessonsList from '../../components/lessons-list/lessons-list.component';
 import { ILesson } from '../../components/lesson-link/lesson-link.component';
 
-type PathParamsType = {};
-
-type Props = RouteComponentProps<PathParamsType> & {};
+interface Props {
+  currentUser: CurrentUser | null;
+};
 
 interface State {
   lessons: ILesson[];
@@ -26,17 +27,9 @@ class Homepage extends Component<Props, State> {
   }
 
   async componentDidMount() {
+    if (!this.props.currentUser) return;
+
     try {
-      const { data } = await axios.get(
-        'http://localhost:4000/api/auth/currentuser',
-        { withCredentials: true },
-      );
-
-      if (!data.currentUser) {
-        this.props.history.push('/sign-in');
-        return;
-      }
-
       const { data: lessons } = await axios
         .get('http://localhost:4000/api/lessons');
 
@@ -48,7 +41,6 @@ class Homepage extends Component<Props, State> {
 
   render() {
     const { lessons } = this.state;
-
     const latestLesson = lessons.length !== 0 ? lessons[0].id : '';
 
     return (
@@ -66,4 +58,4 @@ class Homepage extends Component<Props, State> {
   }
 };
 
-export default withRouter(Homepage);
+export default Homepage;

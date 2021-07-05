@@ -1,13 +1,15 @@
-import axios from 'axios';
 import React, { Component } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
+
+import { Redirect } from 'react-router-dom';
 
 import styles from './sign-in.module.scss';
 
-type PathParamsType = {};
+import { CurrentUser } from '../../App';
 
-type Props = RouteComponentProps<PathParamsType> & {};
+interface Props {
+  currentUser: CurrentUser | null;
+  signin: Function;
+};
 
 interface State {
   email: string;
@@ -35,23 +37,15 @@ class SignIn extends Component<Props, Partial<State>> {
 
     const { email, password } = this.state;
 
-    try {
-      const { data: user } = await axios.post(
-        'http://localhost:4000/api/auth/signin',
-        { email, password },
-        { withCredentials: true },
-      );
-
-      if (user) {
-        this.props.history.push('/');
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    await this.props.signin(email, password);
   }
 
   render() {
     const { email, password } = this.state;
+
+    if (this.props.currentUser) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <div className={styles.signin}>
@@ -79,4 +73,4 @@ class SignIn extends Component<Props, Partial<State>> {
   }
 }
 
-export default withRouter(SignIn);
+export default SignIn;
