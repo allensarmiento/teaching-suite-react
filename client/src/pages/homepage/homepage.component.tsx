@@ -33,7 +33,10 @@ class Homepage extends Component<Props, State> {
 
     try {
       const { data: lessons } = await axios
-        .get('http://localhost:4000/api/lessons');
+        .get(
+          'http://localhost:4000/api/lessons',
+          { withCredentials: true },
+        );
 
       this.setState({ lessons });
     } catch(err) {

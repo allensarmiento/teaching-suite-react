@@ -6,13 +6,11 @@ import { NotFoundError } from '../../errors/not-found-error';
 
 import { requireAuth } from '../../middlewares/require-auth';
 
-import { lesson } from '../../models/lesson';
-
 const router = express.Router();
 
 router.get(
   '/api/lessons/:id',
-  // requireAuth,
+  requireAuth,
   async (req: Request, res: Response) => {
     const { id } = req.params;
 

@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 
 import { noCache } from '../../middlewares/no-cache';
+import { requireAuth } from '../../middlewares/require-auth';
 import { validateRequest } from '../../middlewares/validate-request';
 
 import { AgoraVideo } from '../../services/agora-video';
@@ -10,6 +11,7 @@ const router = express.Router();
 
 router.post(
   '/api/video-call/access-token',
+  requireAuth,
   noCache,
   [
     body('channelName').trim().notEmpty(),

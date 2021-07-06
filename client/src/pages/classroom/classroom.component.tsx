@@ -82,12 +82,17 @@ class Classroom extends Component<Props, State> {
 
     try {
       const { data: slides } = await axios
-        .get(`http://localhost:4000/api/lessons/${id}`);
+        .get(
+          `http://localhost:4000/api/lessons/${id}`,
+          { withCredentials: true },
+        );
 
       const { data: accessToken } = await axios
-        .post('http://localhost:4000/api/video-call/access-token', {
-          channelName: 'video',
-        });
+        .post(
+          'http://localhost:4000/api/video-call/access-token',
+          { channelName: 'video' },
+          { withCredentials: true },
+        );
 
       this.setState({ slides, accessToken }, () => {
         this.slideController.setSlides(this.state.slides);

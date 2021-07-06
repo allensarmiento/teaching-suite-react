@@ -34,7 +34,10 @@ class ReviewComponent extends Component<Props, State> {
 
     try {
       const { data: slides } = await axios
-        .get(`http://localhost:4000/api/lessons/${id}`);
+        .get(
+          `http://localhost:4000/api/lessons/${id}`,
+          { withCredentials: true },
+        );
 
       this.setState({ slides });
     } catch (err) {

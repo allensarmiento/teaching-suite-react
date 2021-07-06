@@ -39,12 +39,12 @@ const VideoCall = ({ currentUser, leaveCall, channelName, token }: Props) => {
         await client.subscribe(user, mediaType);
         console.log('subscribe success');
   
-        if (mediaType === 'video') {
-          setUsers(prevUsers => ([...prevUsers, user]));
-        }
-  
         if (mediaType === 'audio') {
           user.audioTrack?.play();
+        }
+
+        if (mediaType === 'video') {
+          setUsers(prevUsers => ([...prevUsers, user]));
         }
       });
   
@@ -53,6 +53,13 @@ const VideoCall = ({ currentUser, leaveCall, channelName, token }: Props) => {
   
         if (type === 'audio') {
           user.audioTrack?.stop();
+        }
+
+        if (type === 'video') {
+          // TODO: Shouldn't just remove the users like this
+          setUsers(prevUsers => prevUsers.filter(
+            prevUser => prevUser.uid !== user.uid
+          ));
         }
       });
   
