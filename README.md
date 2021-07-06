@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Teaching Suit is a platform to help teach students in a virtual teaching platform. It features group calling, reviewing previous lessons, and allows teachers to control a slide.
+Teaching Suite is a platform to help teach students in a virtual teaching platform. It features group calling, reviewing previous lessons, and allows teachers to control a slide.
 
 ## Notes
 
