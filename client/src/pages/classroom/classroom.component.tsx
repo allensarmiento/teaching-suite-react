@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Component } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { io, Socket } from 'socket.io-client';
 
 import styles from './classroom.module.scss';
 
@@ -30,6 +31,7 @@ interface State {
 
 class Classroom extends Component<Props, State> {
   slideController: SlideController;
+  socket: Socket | null;
 
   constructor(props: Props) {
     super(props);
@@ -42,9 +44,38 @@ class Classroom extends Component<Props, State> {
     };
 
     this.slideController = new SlideController();
+    this.socket = null;
+  }
+
+  initializeSocket() {
+    this.socket = io('http://localhost:4000', {
+      withCredentials: true,
+    });
+
+    this.socket.on('connect', () => {
+      this.socket?.emit('user-connected', this.props.currentUser);
+    });
+
+    this.socket.on('update-slides', ({
+      slides,
+      currentSlide,
+      currentItem,
+    }: {
+      slides: ISlide[];
+      currentSlide: number;
+      currentItem: number;
+    }) => {
+      if (this.props.currentUser?.role !== 'teacher') {
+        this.slideController.setSlides(slides);
+        this.slideController.setCurrentSlide(currentSlide);
+        this.slideController.setCurrentItem(currentItem);
+        this.forceUpdate();
+      }
+    });
   }
 
   async componentDidMount() {
+    await this.initializeSocket();
     const { id } = this.props.match.params;
     
     if (!id) return;
@@ -72,6 +103,11 @@ class Classroom extends Component<Props, State> {
     } else {
       this.slideController.slideBackward();
     }
+    this.socket?.emit('slide-button-clicked', {
+      slides: this.slideController.slides,
+      currentSlide: this.slideController.currentSlide,
+      currentItem: this.slideController.currentItem,
+    });
     this.forceUpdate();
   }
 
@@ -107,20 +143,22 @@ class Classroom extends Component<Props, State> {
               items={this.slideController.currentItems}
               finished={this.slideController.finished}
             />
-            <div>
-              <button
-                onClick={() => this.handleSlideDirection('backward')}
-                disabled={this.slideController.prevDisabled}
-              >
-                Prev
-              </button>
-              <button
-                onClick={() => this.handleSlideDirection('forward')}
-                disabled={this.slideController.nextDisabled}
-              >
-                Next
-              </button>
-            </div>
+            {this.props.currentUser?.role === 'teacher' && (
+              <div>
+                <button
+                  onClick={() => this.handleSlideDirection('backward')}
+                  disabled={this.slideController.prevDisabled}
+                >
+                  Prev
+                </button>
+                <button
+                  onClick={() => this.handleSlideDirection('forward')}
+                  disabled={this.slideController.nextDisabled}
+                >
+                  Next
+                </button>
+              </div>
+            )}
             <Participants className={styles.participants} users={users}>
               <VideoCall
                 currentUser={currentUser}

@@ -22,6 +22,14 @@ export class SlideController {
     this.slides = slides;
   }
 
+  setCurrentSlide(currentSlide: number) {
+    this.currentSlide = currentSlide;
+  }
+
+  setCurrentItem(currentItem: number) {
+    this.currentItem = currentItem;
+  }
+
   get lastSlideNumber() {
     if (this.slides.length === 0) return -1;
 
