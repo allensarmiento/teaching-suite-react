@@ -7,14 +7,7 @@ import ImageContent from '../image-content/image-content.component';
 import QuestionContent from '../question-content/question-content.component';
 import TextContent from '../text-content/text-content.component';
 
-export interface ISlide {
-  title: string;
-  slide_number: number;
-  show_review: boolean;
-  item_number: number;
-  content: string | string[];
-  component: 'ImageContent' | 'QuestionContent' | 'TextContent';
-}
+import { ISlide } from '../../models/slide-controller';
 
 interface Props {
   className?: string;

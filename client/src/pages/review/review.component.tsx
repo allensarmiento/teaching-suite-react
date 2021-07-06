@@ -4,7 +4,9 @@ import { RouteComponentProps } from 'react-router';
 
 import styles from './review.module.scss';
 
-import Slide, { ISlide } from '../../components/slide/slide.component';
+import Slide from '../../components/slide/slide.component';
+
+import { ISlide } from '../../models/slide-controller';
 
 interface MatchParams {
   id: string;

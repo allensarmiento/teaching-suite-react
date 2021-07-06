@@ -33,7 +33,7 @@ const UserVideos = ({ isPublishingVideo, users, tracks }: Props) => {
               />
             );
           } else {
-            return null;
+            return <div className={styles.video} />;
           }
         })
       )}

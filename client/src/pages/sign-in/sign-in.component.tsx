@@ -6,6 +6,8 @@ import styles from './sign-in.module.scss';
 
 import { CurrentUser } from '../../App';
 
+import BlueGreyButton from '../../core/blue-grey-button/blue-grey-button.component';
+
 interface Props {
   currentUser: CurrentUser | null;
   signin: Function;
@@ -49,24 +51,32 @@ class SignIn extends Component<Props, Partial<State>> {
 
     return (
       <div className={styles.signin}>
-        <form onSubmit={this.handleSubmit}>
+        <form className={styles.form} onSubmit={this.handleSubmit}>
+          <h2 className={styles.title}>Sign In</h2>
           <input
+            className={styles.input}
             type="email"
             name="email"
             value={email}
             onChange={this.handleChange}
+            placeholder="Email"
             required
           />
-          <label>Email</label>
           <input
+            className={styles.input}
             type="password"
             name="password"
             value={password}
             onChange={this.handleChange}
+            placeholder="Password"
             required
           />
-          <label>Password</label>
-          <button type="submit">Sign In</button>
+          <BlueGreyButton
+            className={styles.button}
+            type="submit"
+          >
+            Sign In
+          </BlueGreyButton>
         </form>
       </div>
     );

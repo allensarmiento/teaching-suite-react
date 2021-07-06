@@ -14,11 +14,14 @@ import Homepage from './pages/homepage/homepage.component';
 import Review from './pages/review/review.component';
 import SignIn from './pages/sign-in/sign-in.component';
 
-type PathParamsType = {};
+type PathParamsType = {
+  id: string;
+};
 
-type Props = RouteComponentProps<PathParamsType> & {}
+interface Props extends RouteComponentProps<PathParamsType> {}
 
 export interface CurrentUser {
+  id: number;
   email: string;
   role: string;
 }
@@ -111,7 +114,10 @@ class App extends Component<Props, State> {
           <PrivateRoute
             currentUser={currentUser}
             path="/classroom/:id"
-            component={Classroom}
+            //@ts-ignore
+            render={(props) => (
+              <Classroom currentUser={currentUser} {...props} />
+            )}
           />
           <PrivateRoute
             currentUser={currentUser}

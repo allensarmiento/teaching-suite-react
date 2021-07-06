@@ -8,6 +8,8 @@ import {
 } from 'agora-rtc-react';
 import { useEffect, useState } from 'react';
 
+import { CurrentUser } from '../../App';
+
 import CallControls from '../call-controls/call-controls.component';
 import UserVideos from '../user-videos/user-videos.component';
 
@@ -17,12 +19,13 @@ export const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 interface Props {
+  currentUser: CurrentUser | null;
   leaveCall: Function;
   channelName: string;
   token: string;
 }
 
-const VideoCall = ({ leaveCall, channelName, token }: Props) => {
+const VideoCall = ({ currentUser, leaveCall, channelName, token }: Props) => {
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
   const [start, setStart] = useState<boolean>(false);
   const [isPublishingVideo, setIsPublishingVideo] = useState(false);
@@ -51,12 +54,6 @@ const VideoCall = ({ leaveCall, channelName, token }: Props) => {
         if (type === 'audio') {
           user.audioTrack?.stop();
         }
-  
-        if (type === 'video') {
-          setUsers(prevUsers => prevUsers.filter(
-            prevUser => prevUser.uid !== user.uid
-          ));
-        }
       });
   
       client.on('user-left', user => {
@@ -71,7 +68,7 @@ const VideoCall = ({ leaveCall, channelName, token }: Props) => {
         appId,
         name,
         token,
-        null, // TODO: User Id
+        currentUser?.id,
       );
   
       if (tracks) {

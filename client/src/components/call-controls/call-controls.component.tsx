@@ -23,9 +23,14 @@ const CallControls = ({ changePublishVideo, leaveCall, tracks }: Props) => {
   const mute = async (type: 'audio' | 'video') => {
     if (type === 'audio') {
       await tracks[0].setEnabled(!trackState.audio);
-      setTrackState(prevTrackState => ({ ...prevTrackState, audio: !prevTrackState.audio }));
+
+      setTrackState(prevTrackState => ({
+        ...prevTrackState,
+        audio: !prevTrackState.audio,
+      }));
     } else if (type === 'video') {
       await tracks[1].setEnabled(!trackState.video);
+
       setTrackState(prevTrackState => ({
         ...prevTrackState,
         video: !prevTrackState.video,
