@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders component 1`] = `
+<button
+  className="button"
+>
+  Button
+</button>
+`;
+
+exports[`renders component with className props 1`] = `
+<button
+  className="large button"
+>
+  Button
+</button>
+`;
+
+exports[`renders component with type props 1`] = `
+<button
+  className="button"
+  type="button"
+>
+  Button
+</button>
+`;

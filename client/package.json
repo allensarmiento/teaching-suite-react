@@ -2,6 +2,11 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -61,5 +66,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/enzyme": "^3.10.9",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.2",
+    "enzyme": "^3.11.0",
+    "enzyme-to-json": "^3.6.2"
   }
 }
