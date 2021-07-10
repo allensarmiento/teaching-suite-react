@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`redirects to home page if user is signed in 1`] = `
+<Redirect
+  to="/"
+/>
+`;
+
+exports[`renders sign in form if user not signed in 1`] = `
+<div
+  className="signin"
+>
+  <form
+    className="form"
+    onSubmit={[Function]}
+  >
+    <h2
+      className="title"
+    >
+      Sign In
+    </h2>
+    <input
+      className="input"
+      name="email"
+      onChange={[Function]}
+      placeholder="Email"
+      required={true}
+      type="email"
+      value=""
+    />
+    <input
+      className="input"
+      name="password"
+      onChange={[Function]}
+      placeholder="Password"
+      required={true}
+      type="password"
+      value=""
+    />
+    <BlueGreyButton
+      className="button"
+      type="submit"
+    >
+      Sign In
+    </BlueGreyButton>
+  </form>
+</div>
+`;
