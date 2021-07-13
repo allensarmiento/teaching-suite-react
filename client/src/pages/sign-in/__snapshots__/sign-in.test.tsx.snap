@@ -6,7 +6,7 @@ exports[`redirects to home page if user is signed in 1`] = `
 />
 `;
 
-exports[`renders sign in form if user not signed in 1`] = `
+exports[`renders sign in form component if user not signed in 1`] = `
 <div
   className="signin"
 >
